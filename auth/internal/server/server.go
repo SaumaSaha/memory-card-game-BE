@@ -1,14 +1,16 @@
 package server
 
 import (
+	"log"
+
 	"auth/internal/handler"
 	loginhandler "auth/internal/handler/login"
 	"auth/internal/router"
 	loginservice "auth/internal/service/login"
 	"github.com/gin-gonic/gin"
-	"log"
 )
 
+// Init ...
 func Init() {
 	app := gin.Default()
 
@@ -31,5 +33,6 @@ func initHandlers() *handler.Handlers {
 
 func newLoginHandler() loginhandler.Handler {
 	loginService := loginservice.NewService()
+
 	return loginhandler.NewHandler(loginService)
 }

@@ -1,0 +1,159 @@
+run:
+  timeout: 5m
+
+severity:
+  default-severity: warning
+
+linters-settings:
+  revive:
+    severity: warning
+    rules:
+      - name: exported
+        disabled: false
+
+  varnamelen:
+    max-distance: 10
+    min-name-length: 2
+
+  depguard:
+    # new configuration
+    rules:
+      auth:
+        allow:
+          - "fmt"
+          - "reflect"
+          - "os"
+          - "sync"
+          - "context"
+          - "net/http"
+          - "auth"
+          - "log"
+          - "memory-card-game-BE"
+          - "go.uber.org/zap"
+          - "go.uber.org/zap/zapcore"
+          - "github.com/gin-gonic/gin"
+          - "github.com/ggwhite/go-masker"
+          - "github.com/uptrace/opentelemetry-go-extra/otelzap"
+      memory-card-game-be:
+        allow:
+          - "fmt"
+          - "reflect"
+          - "os"
+          - "sync"
+          - "context"
+          - "net/http"
+          - "auth"
+          - "log"
+          - "memory-card-game-BE"
+          - "go.uber.org/zap"
+          - "go.uber.org/zap/zapcore"
+          - "github.com/gin-gonic/gin"
+          - "github.com/ggwhite/go-masker"
+          - "github.com/uptrace/opentelemetry-go-extra/otelzap"
+
+linters:
+  enable:
+    - asasalint
+    - asciicheck
+    - bidichk
+    - bodyclose
+    - canonicalheader
+    - containedctx
+    - contextcheck
+    - copyloopvar
+    - cyclop
+    - decorder
+    - depguard
+    - dogsled
+    - dupl
+    - dupword
+    - durationcheck
+    - err113
+    - errcheck
+    - errchkjson
+    - errname
+    - errorlint
+    - fatcontext
+    - funlen
+    - gci
+    - ginkgolinter
+    - gocheckcompilerdirectives
+    - gochecknoglobals
+    - gochecknoinits
+    - gochecksumtype
+    - gocognit
+    - goconst
+    - gocritic
+    - gocyclo
+    - godot
+    - godox
+    - gofmt
+    - goheader
+    - gomoddirectives
+    - gomodguard
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - gosmopolitan
+    - govet
+    - grouper
+    - iface
+    - importas
+    - inamedparam
+    - ineffassign
+    - interfacebloat
+    - intrange
+    - lll
+    - loggercheck
+    - maintidx
+    - makezero
+    - mirror
+    - misspell
+    - mnd
+    - musttag
+    - nakedret
+    - nestif
+    - nilerr
+    - nilnil
+    - nlreturn
+    - noctx
+    - nonamedreturns
+    - nosprintfhostport
+    - paralleltest
+    - perfsprint
+    - predeclared
+    - promlinter
+    - protogetter
+    - reassign
+    - recvcheck
+    - revive
+    - rowserrcheck
+    - sloglint
+    - spancheck
+    - sqlclosecheck
+    - staticcheck
+    - tagalign
+    - tagliatelle
+    - tenv
+    - testableexamples
+    - testifylint
+    - testpackage
+    - thelper
+    - tparallel
+    - unconvert
+    - unparam
+    - unused
+    - usestdlibvars
+    - varnamelen
+    - wastedassign
+    - whitespace
+    - wrapcheck
+    - wsl
+    - zerologlint
+issues:
+  exclude-use-default: false
+
+output:
+  formats:
+    - format: colored-line-number
+  sort-results: true

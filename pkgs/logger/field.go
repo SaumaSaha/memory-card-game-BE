@@ -2,7 +2,8 @@ package logger
 
 import "go.uber.org/zap"
 
-type Field interface {
+// LogField is an interface that defines the ZapField method.
+type LogField interface {
 	ZapField() zap.Field
 }
 
@@ -16,22 +17,21 @@ type field[T any] struct {
 
 // ZapField converts a field into a zap.Field.
 func (f field[T]) ZapField() zap.Field {
-
 	return zap.Any(f.key, f.value)
 }
 
 // NewField returns a new field with the given key and value and not masked.
-func NewField[T any](key string, val T) Field {
+func NewField[T any](key string, val T) LogField {
 	return field[T]{key: key, value: DefaultMasker()(val)}
 }
 
-// newNonSensitiveField returns a new field with the given key and value and not masked.
-func newNonSensitiveField[T any](key string, val T) Field {
+// NewNonSensitiveField returns a new field with the given key and value and not masked.
+func NewNonSensitiveField[T any](key string, val T) LogField {
 	return field[T]{key: key, value: val}
 }
 
-// newSensitiveField returns a new field with the given key with value masked by the given masker.
-func newSensitiveField[T any](key string, val T, mask Masker[T]) Field {
+// NewSensitiveField returns a new field with the given key with value masked by the given masker.
+func NewSensitiveField[T any](key string, val T, mask Masker[T]) LogField {
 	if mask == nil {
 		return NewField[T](key, val)
 	}

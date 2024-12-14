@@ -2,34 +2,37 @@ package logger
 
 import (
 	"context"
-	"github.com/gin-gonic/gin"
-	"go.uber.org/zap/zapcore"
-	"memory-card-game-BE/pkgs/game"
 	"os"
 	"sync"
 
+	"github.com/gin-gonic/gin"
 	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+	"memory-card-game-BE/pkgs/game"
 )
 
-var once sync.Once //nolint:gochecknoglobals, lll, we are creating singleton object, which is going to be reused across the project
-var instance *otelzap.Logger
+var (
+	once     sync.Once       //nolint:gochecknoglobals, creating global variable that will be reused across the project
+	instance *otelzap.Logger //nolint:gochecknoglobals, creating global variable that will be reused across the project
+)
 
+// Logger is an interface that defines the methods for logging.
 type Logger interface {
 	// Debug logs a debug message with the given fields
-	Debug(format string, args ...Field)
+	Debug(format string, args ...LogField)
 
 	// Info logs an info message with the given fields
-	Info(format string, args ...Field)
+	Info(format string, args ...LogField)
 
 	// Error logs an error message with the given fields
-	Error(format string, args ...Field)
+	Error(format string, args ...LogField)
 
 	// Warn logs a warning message with the given fields
-	Warn(format string, args ...Field)
+	Warn(format string, args ...LogField)
 }
 
-func zapFields(value ...Field) []zap.Field {
+func zapFields(value ...LogField) []zap.Field {
 	var fields []zap.Field
 	for _, f := range value {
 		fields = append(fields, f.ZapField())
@@ -72,22 +75,22 @@ func GetLogger(ctx interface{}) Logger {
 }
 
 // Debug logs a debug message with the given fields.
-func (l *defaultLogger) Debug(msg string, args ...Field) {
+func (l *defaultLogger) Debug(msg string, args ...LogField) {
 	l.logger.Debug(msg, append(zapFields(args...), l.traceDetails()...)...)
 }
 
 // Info logs an info message with the given fields.
-func (l *defaultLogger) Info(msg string, args ...Field) {
+func (l *defaultLogger) Info(msg string, args ...LogField) {
 	l.logger.Info(msg, append(zapFields(args...), l.traceDetails()...)...)
 }
 
 // Warn logs a warning message with the given fields.
-func (l *defaultLogger) Warn(msg string, args ...Field) {
+func (l *defaultLogger) Warn(msg string, args ...LogField) {
 	l.logger.Warn(msg, append(zapFields(args...), l.traceDetails()...)...)
 }
 
 // Error logs an error message with the given fields.
-func (l *defaultLogger) Error(msg string, args ...Field) {
+func (l *defaultLogger) Error(msg string, args ...LogField) {
 	l.logger.Error(msg, append(zapFields(args...), l.traceDetails()...)...)
 }
 

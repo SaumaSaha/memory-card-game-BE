@@ -7,11 +7,13 @@ import (
 
 type loginService struct{}
 
+// NewService ...
 func NewService() Service {
 	return &loginService{}
 }
 
 func (ls *loginService) ValidateCredentials(ctx context.Context, username, password string) (bool, error) {
 	fmt.Printf("validating credentials %s %s\n", username, password)
+
 	return true, nil
 }
